@@ -26,6 +26,15 @@ let jobs = [
         jobType: "Full-time",
         salary: "$140,000 - $190,000",
         status: "rejected"
+    },
+    {
+        id: 4,
+        company: "Dummy Company 2",
+        role: "Web Designer & Developer",
+        location: "Seattle, WA",
+        jobType: "Full-time",
+        salary: "$140,000 - $190,000",
+        status: "rejected"
     }
 ];
 
@@ -61,8 +70,12 @@ function renderFilteredJobs(activeTab = 'all') {
 
     // Filter job list according to active tab
     let filteredJob = jobs;
+    let jobCount = getJobCount();
+    document.getElementById('filtered-job-count').innerText = jobCount.totalJob + ' jobs';
+
     if (activeTab != 'all') {
         filteredJob = jobs.filter(j => j.status == activeTab);
+        document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of' + jobCount.totalJob + ' jobs';
     }
 
     // Render job list
