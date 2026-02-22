@@ -39,7 +39,7 @@ let jobs = [
 ];
 
 
-// Filter and count total job according to job status
+// Function to filter and count total job according to job status
 function getJobCount() {
     return {
         totalJob: jobs.length,
@@ -48,9 +48,8 @@ function getJobCount() {
     };
 }
 
-console.log(getJobCount())
 
-// Render job stats on the dashboard
+// Function to render job stats on the dashboard
 function renderJobCountOnDashboard() {
     const jobCount = getJobCount();
 
@@ -61,7 +60,8 @@ function renderJobCountOnDashboard() {
 
 renderJobCountOnDashboard()
 
-// Render filtered job list
+
+// Function to render filtered job list
 function renderFilteredJobs(activeTab = 'all') {
     const jobListContainer = document.getElementById('job-list');
 
@@ -77,23 +77,24 @@ function renderFilteredJobs(activeTab = 'all') {
         filteredJob = jobs.filter(j => j.status == activeTab);
         document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of' + jobCount.totalJob + ' jobs';
     }
-
+    console.log(filteredJob)
     // Render job list
-    filteredJob.forEach(job => {
-        let jobStatusButton = '';
-        if (job.status == 'not_applied') {
-            jobStatusButton = `<button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>`
-        }
+    if (filteredJob != '') {
+        filteredJob.forEach(job => {
+            let jobStatusButton = '';
+            if (job.status == 'not_applied') {
+                jobStatusButton = `<button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>`
+            }
 
-        if (job.status == 'interview') {
-            jobStatusButton = `<button class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200">interview</button>`
-        }
+            if (job.status == 'interview') {
+                jobStatusButton = `<button class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200">interview</button>`
+            }
 
-        if (job.status == 'rejected') {
-            jobStatusButton = `<button class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200">rejected</button>`
-        }
+            if (job.status == 'rejected') {
+                jobStatusButton = `<button class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200">rejected</button>`
+            }
 
-        jobListContainer.innerHTML += `
+            jobListContainer.innerHTML += `
                 <div class="job-item space-y-4 p-6 rounded-lg border border-[#F1F2F4] bg-base-100 mb-3">
                     <!-- job header -->
                     <div class="flex justify-between align-middle">
@@ -102,7 +103,7 @@ function renderFilteredJobs(activeTab = 'all') {
                             <p class="text-[#64748B] font-normal">${job.role}</p>
                         </div>
                         <div class="delete-button">
-                            <button class="btn btn-circle bg-base-100 text-[#64748B]"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]" onclick="deleteJob(${job.id})"><i class="fa-regular fa-trash-can"></i></button>
                         </div>
                     </div>
                     <!-- job meta -->
@@ -124,20 +125,57 @@ function renderFilteredJobs(activeTab = 'all') {
                         <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
                     </div>
                 </div>`;
-    });
+        });
+    } else {
+        jobListContainer.innerHTML += `
+            <!-- no job display -->
+            <div class="bg-base-100 rounded-lg border-0 text-center p-16">
+                <img src="./assets/jobs.png" alt="jobs" class="mx-auto mb-5">
+                <div class="empty-job-text">
+                    <h2 class="text-[#002C5C] font-semibold text-[24px] mb-1">No jobs available</h2>
+                    <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+                </div>
+            </div>
+        `;
+    }
 
     // Render dashboard stats
     renderJobCountOnDashboard();
 }
 
-// Render filtered job list on tab activation
 renderFilteredJobs('all');
 document.getElementById('all-tab').addEventListener('click', function () {
     renderFilteredJobs('all');
+    changeActiveTabButton('all-tab');
 });
 document.getElementById('interview-tab').addEventListener('click', function () {
     renderFilteredJobs('interview');
+    changeActiveTabButton('interview-tab');
 });
 document.getElementById('rejected-tab').addEventListener('click', function () {
     renderFilteredJobs('rejected');
+    changeActiveTabButton('rejected-tab');
 });
+
+
+// Function to change active tab button
+function changeActiveTabButton(id) {
+    const allTabButton = document.getElementById('all-tab').classList.add('bg-white', 'text-red-500', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
+    document.getElementById('all-tab').classList.remove('btn-primary');
+    const interviewTabButton = document.getElementById('interview-tab').classList.add('bg-white', 'text-[#64748B]', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
+    document.getElementById('interview-tab').classList.remove('btn-primary');
+    const rejectedTabButton = document.getElementById('rejected-tab').classList.add('bg-white', 'text-[#64748B]', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
+    document.getElementById('rejected-tab').classList.remove('btn-primary');
+
+    document.getElementById(id).classList.add('btn-primary', 'shadow-none', 'bg-[#3B82F6]', 'text-white', 'border-[#3B82F6]');
+    document.getElementById(id).classList.remove('bg-white');
+}
+
+
+// Function to delete job
+function deleteJob(id) {
+    alert('Do you want to delete this job - '+ id)
+    jobs = jobs.filter(job => job.id !== id);
+    renderFilteredJobs('all');
+    changeActiveTabButton('all-tab');
+}
