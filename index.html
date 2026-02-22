@@ -25,7 +25,7 @@
     </style>
 </head>
 <body class="min-h-screen bg-base-200 mx-auto">
-    <main class="max-w-[1110px] py-[60px] mx-auto">
+    <main class="max-w-[1110px] py-[60px] px-4 lg:px-0 mx-auto">
         <!-- stats section -->
         <section id="stats" class="pb-8 border border-b-2 border-base-200 border-b-[#E6E7E9]">
             <h2 class="text-2xl font-bold text-[#002C5C] mb-5">Job Application Tracker</h2>
@@ -61,13 +61,166 @@
             <!-- job tabs -->
             <div class="job-tabs flex gap-4 mb-4">
                 <button class="btn btn-primary bg-[#3B82F6] shadow-none border-[#3B82F6] rounded">All</button>
-                <button class="btn bg-white text-[#64748B] rounded hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white">Interview</button>
-                <button class="btn bg-white text-[#64748B] rounded hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white">Rejected</button>
+                <button class="btn bg-white text-[#64748B] rounded hover:text-[#3B82F6] hover:border-[#3B82F6]">Interview</button>
+                <button class="btn bg-white text-[#64748B] rounded hover:text-[#3B82F6] hover:border-[#3B82F6]">Rejected</button>
             </div>
 
             <!-- job list -->
             <div class="job-list">
-                
+                <!-- job item 1 -->
+                <div class="job-item space-y-4 p-6 rounded-lg border border-[#F1F2F4] bg-base-100 mb-3">
+                    <!-- job header -->
+                    <div class="flex justify-between align-middle">
+                        <div class="job-title">
+                            <h2 class="text-[#002C5C] font-semibold text-[18px]">Mobile First Corp</h2>
+                            <p class="text-[#64748B] font-normal">React Native Developer</p>
+                        </div>
+                        <div class="delete-button">
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <!-- job meta -->
+                    <div class="job-meta text-[#64748B] text-[14px]">
+                        <p>Remote
+                        •
+                        Full-time
+                        •
+                        $130,000 - $175,000</p>
+                    </div>
+                    <!-- job status -->
+                    <div class="job-status">
+                        <button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>
+                        <button class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200 hidden">interview</button>
+                        <button class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200 hidden">rejected</button>
+                        <p class="text-[14px] text-[#323B49] font-medium mt-2">Build cross-platform mobile applications using React Native. Work on products used by millions of users worldwide.</p>
+                    </div>
+                    <!-- job action -->
+                    <div class="job-action flex justify-start align-middle gap-2">
+                        <button class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none">Interview</button>
+                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- job item 2 -->
+                <div class="job-item space-y-4 p-6 rounded-lg border border-[#F1F2F4] bg-base-100 mb-3">
+                    <!-- job header -->
+                    <div class="flex justify-between align-middle">
+                        <div class="job-title">
+                            <h2 class="text-[#002C5C] font-semibold text-[18px]">WebFlow Agency</h2>
+                            <p class="text-[#64748B] font-normal">Web Designer & Developer</p>
+                        </div>
+                        <div class="delete-button">
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <!-- job meta -->
+                    <div class="job-meta text-[#64748B] text-[14px]">
+                        <p>Los Angeles, CA
+                        •
+                        Part-time
+                        •
+                        $80,000 - $120,000</p>
+                    </div>
+                    <!-- job status -->
+                    <div class="job-status">
+                        <button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>
+                        <button
+                            class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200 hidden">interview</button>
+                        <button
+                            class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200 hidden">rejected</button>
+                        <p class="text-[14px] text-[#323B49] font-medium mt-2">Create stunning web experiences for high-profile clients. Must have portfolio and experience with modern web design
+                        trends.</p>
+                    </div>
+                    <!-- job action -->
+                    <div class="job-action flex justify-start align-middle gap-2">
+                        <button
+                            class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none">Interview</button>
+                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- job item 3 -->
+                <div class="job-item space-y-4 p-6 rounded-lg border border-[#F1F2F4] bg-base-100 mb-3">
+                    <!-- job header -->
+                    <div class="flex justify-between align-middle">
+                        <div class="job-title">
+                            <h2 class="text-[#002C5C] font-semibold text-[18px]">DataViz Solutions</h2>
+                            <p class="text-[#64748B] font-normal">Data Visualization Specialist</p>
+                        </div>
+                        <div class="delete-button">
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <!-- job meta -->
+                    <div class="job-meta text-[#64748B] text-[14px]">
+                        <p>Boston, MA
+                        •
+                        Full-time
+                        •
+                        $125,000 - $165,000</p>
+                    </div>
+                    <!-- job status -->
+                    <div class="job-status">
+                        <button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>
+                        <button
+                            class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200 hidden">interview</button>
+                        <button
+                            class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200 hidden">rejected</button>
+                        <p class="text-[14px] text-[#323B49] font-medium mt-2">Transform complex data into compelling visualizations. Required skills: D3.js, React, and strong analytical thinking.</p>
+                    </div>
+                    <!-- job action -->
+                    <div class="job-action flex justify-start align-middle gap-2">
+                        <button
+                            class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none">Interview</button>
+                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- job item 4 -->
+                <div class="job-item space-y-4 p-6 rounded-lg border border-[#F1F2F4] bg-base-100 mb-3">
+                    <!-- job header -->
+                    <div class="flex justify-between align-middle">
+                        <div class="job-title">
+                            <h2 class="text-[#002C5C] font-semibold text-[18px]">CloudFirst Inc</h2>
+                            <p class="text-[#64748B] font-normal">Backend Developer</p>
+                        </div>
+                        <div class="delete-button">
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <!-- job meta -->
+                    <div class="job-meta text-[#64748B] text-[14px]">
+                        <p>Seattle, WA
+                        •
+                        Full-time
+                        •
+                        $140,000 - $190,000</p>
+                    </div>
+                    <!-- job status -->
+                    <div class="job-status">
+                        <button class="btn uppercase text-[#002C5C] bg-[#EEF4FF] border-0 font-medium text-[14px]">not applied</button>
+                        <button
+                            class="btn bg-green-900 uppercase border border-green-200 font-medium text-[14px] shadow-none hover:bg-green-900 text-green-200 hidden">interview</button>
+                        <button
+                            class="btn bg-red-900 uppercase border border-red-200 font-medium text-[14px] shadow-none hover:bg-red-900 text-red-200 hidden">rejected</button>
+                        <p class="text-[14px] text-[#323B49] font-medium mt-2">Design and maintain scalable backend systems using Python and AWS. Work with modern DevOps practices and cloud infrastructure.</p>
+                    </div>
+                    <!-- job action -->
+                    <div class="job-action flex justify-start align-middle gap-2">
+                        <button
+                            class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none">Interview</button>
+                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- no job display -->
+                <div class="bg-base-100 rounded-lg border-0 text-center p-16">
+                    <img src="./assets/jobs.png" alt="jobs" class="mx-auto mb-5">
+                    <div class="empty-job-text">
+                        <h2 class="text-[#002C5C] font-semibold text-[24px] mb-1">No jobs available</h2>
+                        <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
