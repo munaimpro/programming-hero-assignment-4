@@ -38,6 +38,8 @@ let jobs = [
     }
 ];
 
+let currentTab;
+
 
 // Function to filter and count total job according to job status
 function getJobCount() {
@@ -74,7 +76,7 @@ function renderFilteredJobs(activeTab = 'all') {
     document.getElementById('filtered-job-count').innerText = jobCount.totalJob + ' jobs';
 
     if (activeTab != 'all') {
-        filteredJob = jobs.filter(j => j.status == activeTab);
+        filteredJob = jobs.filter(job => job.status == activeTab);
         document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of' + jobCount.totalJob + ' jobs';
     }
     console.log(filteredJob)
@@ -103,7 +105,7 @@ function renderFilteredJobs(activeTab = 'all') {
                             <p class="text-[#64748B] font-normal">${job.role}</p>
                         </div>
                         <div class="delete-button">
-                            <button class="btn btn-circle bg-base-100 text-[#64748B]" onclick="deleteJob(${job.id})"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]" onclick="deleteJob(${job.id}, '${job.status}')"><i class="fa-regular fa-trash-can"></i></button>
                         </div>
                     </div>
                     <!-- job meta -->
@@ -121,8 +123,8 @@ function renderFilteredJobs(activeTab = 'all') {
                     </div>
                     <!-- job action -->
                     <div class="job-action flex justify-start align-middle gap-2">
-                        <button class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none">Interview</button>
-                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none">Rejected</button>
+                        <button class="btn btn-outline btn-success uppercase font-semibold hover:text-white shadow-none" onclick="changeJobStatus(${job.id}, 'interview')">Interview</button>
+                        <button class="btn btn-outline btn-error uppercase font-semibold hover:text-white shadow-none" onclick="changeJobStatus(${job.id}, 'rejected')">Rejected</button>
                     </div>
                 </div>`;
         });
@@ -147,33 +149,61 @@ renderFilteredJobs('all');
 document.getElementById('all-tab').addEventListener('click', function () {
     renderFilteredJobs('all');
     changeActiveTabButton('all-tab');
+    currentTab = 'all';
 });
 document.getElementById('interview-tab').addEventListener('click', function () {
     renderFilteredJobs('interview');
     changeActiveTabButton('interview-tab');
+    currentTab = 'interview';
 });
 document.getElementById('rejected-tab').addEventListener('click', function () {
     renderFilteredJobs('rejected');
     changeActiveTabButton('rejected-tab');
+    currentTab = 'rejected';
 });
 
 
 // Function to change active tab button
 function changeActiveTabButton(id) {
-    const allTabButton = document.getElementById('all-tab').classList.add('bg-white', 'text-red-500', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
-    document.getElementById('all-tab').classList.remove('btn-primary');
-    const interviewTabButton = document.getElementById('interview-tab').classList.add('bg-white', 'text-[#64748B]', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
-    document.getElementById('interview-tab').classList.remove('btn-primary');
-    const rejectedTabButton = document.getElementById('rejected-tab').classList.add('bg-white', 'text-[#64748B]', 'rounded', 'hover:text-[#3B82F6]', 'hover:border-[#3B82F6]');
-    document.getElementById('rejected-tab').classList.remove('btn-primary');
+    document.getElementById(id).classList.add('btn-primary', 'shadow-none', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+    document.getElementById(id).classList.remove('bg-white', 'hover:text-[#3B82F6]');
 
-    document.getElementById(id).classList.add('btn-primary', 'shadow-none', 'bg-[#3B82F6]', 'text-white', 'border-[#3B82F6]');
-    document.getElementById(id).classList.remove('bg-white');
+    if (id == 'all-tab') {
+        document.getElementById('interview-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('interview-tab').classList.add('bg-base-100');
+        document.getElementById('rejected-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('rejected-tab').classList.add('bg-base-100');
+    } else if (id == 'interview-tab') {
+        document.getElementById('all-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('all-tab').classList.add('bg-base-100');
+        document.getElementById('rejected-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('rejected-tab').classList.add('bg-base-100');
+    } else {
+        document.getElementById('all-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('all-tab').classList.add('bg-base-100');
+        document.getElementById('interview-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
+        document.getElementById('interview-tab').classList.add('bg-base-100');
+    }
+}
+
+
+// Function to change job status
+console.log(currentTab);
+function changeJobStatus(id, newStatus) {
+    jobs = jobs.map(currentJob => {
+        if (currentJob.id === id) {
+            return {...currentJob, status: newStatus}
+        }
+        return currentJob;
+    });
+    console.log(currentTab);
+    renderFilteredJobs(currentTab)
+    changeActiveTabButton(currentTab+'-tab')
 }
 
 
 // Function to delete job
-function deleteJob(id) {
+function deleteJob(id, status) {
     alert('Do you want to delete this job - '+ id)
     jobs = jobs.filter(job => job.id !== id);
     renderFilteredJobs('all');
