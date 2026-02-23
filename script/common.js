@@ -30,3 +30,15 @@ function changeActiveTabButton(id) {
         document.getElementById('interview-tab').classList.add('bg-base-100');
     }
 }
+
+
+// Function to get current active tab
+function getActiveTab() {
+    return document.getElementById('available-jobs').dataset.activeTab;
+}
+
+
+// Function to set active tab
+function setActiveTab(tab) {
+    document.getElementById('available-jobs').dataset.activeTab = tab;
+}

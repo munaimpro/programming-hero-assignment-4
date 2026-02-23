@@ -1,7 +1,3 @@
-// Global active tab to use to stay on current tab after job status change and job delete
-let currentTab;
-
-
 // Function to render job stats on the dashboard
 function renderJobCountOnDashboard() {
     const jobCount = getJobCount();
@@ -29,9 +25,9 @@ function renderFilteredJobs(activeTab = 'all') {
         filteredJob = jobs.filter(job => job.status == activeTab);
         document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of ' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of ' + jobCount.totalJob + ' jobs';
     }
-    console.log(filteredJob)
+    
     // Render job list
-    if (filteredJob != '') {
+    if (filteredJob.length > 0) {
         filteredJob.forEach(job => {
             let jobStatusButton = '';
             if (job.status == 'not_applied') {
@@ -101,17 +97,17 @@ renderFilteredJobs('all');
 document.getElementById('all-tab').addEventListener('click', function () {
     renderFilteredJobs('all');
     changeActiveTabButton('all-tab');
-    currentTab = 'all';
+    setActiveTab('all');
 });
 document.getElementById('interview-tab').addEventListener('click', function () {
     renderFilteredJobs('interview');
     changeActiveTabButton('interview-tab');
-    currentTab = 'interview';
+    setActiveTab('interview');
 });
 document.getElementById('rejected-tab').addEventListener('click', function () {
     renderFilteredJobs('rejected');
     changeActiveTabButton('rejected-tab');
-    currentTab = 'rejected';
+    setActiveTab('rejected');
 });
 
 
@@ -123,15 +119,17 @@ function changeJobStatus(id, newStatus) {
         }
         return currentJob;
     });
-    renderFilteredJobs(currentTab)
-    changeActiveTabButton(currentTab+'-tab')
+    renderFilteredJobs(getActiveTab())
+    changeActiveTabButton(getActiveTab() + '-tab')
 }
 
 
 // Function to delete job
 function deleteJob(id, role) {
-    alert('Do you want to delete this job - ' + role)
+    if (!confirm('Do you want to delete this job - ' + role)) {
+        return;
+    }
     jobs = jobs.filter(job => job.id !== id);
-    renderFilteredJobs(currentTab)
-    changeActiveTabButton(currentTab + '-tab')
+    renderFilteredJobs(getActiveTab())
+    changeActiveTabButton(getActiveTab() + '-tab')
 }
