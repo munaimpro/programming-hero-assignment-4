@@ -1,54 +1,5 @@
-// Job data
-let jobs = [
-    {
-        id: 1,
-        company: "Mobile First Corp",
-        role: "React Native Developer",
-        location: "Seattle, WA",
-        jobType: "Full-time",
-        salary: "$140,000 - $190,000",
-        status: "not_applied"
-    },
-    {
-        id: 2,
-        company: "WebFlow Agency",
-        role: "Web Designer & Developer",
-        location: "Seattle, WA",
-        jobType: "Full-time",
-        salary: "$140,000 - $190,000",
-        status: "interview"
-    },
-    {
-        id: 3,
-        company: "Dummy Company",
-        role: "Web Designer & Developer",
-        location: "Seattle, WA",
-        jobType: "Full-time",
-        salary: "$140,000 - $190,000",
-        status: "rejected"
-    },
-    {
-        id: 4,
-        company: "Dummy Company 2",
-        role: "Web Designer & Developer",
-        location: "Seattle, WA",
-        jobType: "Full-time",
-        salary: "$140,000 - $190,000",
-        status: "rejected"
-    }
-];
-
+// Global active tab to use to stay on current tab after job status change and job delete
 let currentTab;
-
-
-// Function to filter and count total job according to job status
-function getJobCount() {
-    return {
-        totalJob: jobs.length,
-        interviewJob: jobs.filter(j => j.status == 'interview').length,
-        rejectedJob: jobs.filter(j => j.status == 'rejected').length,
-    };
-}
 
 
 // Function to render job stats on the dashboard
@@ -59,7 +10,6 @@ function renderJobCountOnDashboard() {
     document.getElementById('interview-job').innerText = jobCount.interviewJob;
     document.getElementById('rejected-job').innerText = jobCount.rejectedJob;
 }
-
 renderJobCountOnDashboard()
 
 
@@ -77,7 +27,7 @@ function renderFilteredJobs(activeTab = 'all') {
 
     if (activeTab != 'all') {
         filteredJob = jobs.filter(job => job.status == activeTab);
-        document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of' + jobCount.totalJob + ' jobs';
+        document.getElementById('filtered-job-count').innerText = activeTab == 'interview' ? jobCount.interviewJob + ' of ' + jobCount.totalJob + ' jobs' : jobCount.rejectedJob + ' of ' + jobCount.totalJob + ' jobs';
     }
     console.log(filteredJob)
     // Render job list
@@ -105,7 +55,7 @@ function renderFilteredJobs(activeTab = 'all') {
                             <p class="text-[#64748B] font-normal">${job.role}</p>
                         </div>
                         <div class="delete-button">
-                            <button class="btn btn-circle bg-base-100 text-[#64748B]" onclick="deleteJob(${job.id}, '${job.status}')"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="btn btn-circle bg-base-100 text-[#64748B]" onclick="deleteJob(${job.id}, '${job.role}')"><i class="fa-regular fa-trash-can"></i></button>
                         </div>
                     </div>
                     <!-- job meta -->
@@ -119,7 +69,7 @@ function renderFilteredJobs(activeTab = 'all') {
                     <!-- job status -->
                     <div class="job-status">
                         ${jobStatusButton}
-                        <p class="text-[14px] text-[#323B49] font-medium mt-2">Build cross-platform mobile applications using React Native. Work on products used by millions of users worldwide.</p>
+                        <p class="text-[14px] text-[#323B49] font-medium mt-2">${job.description}</p>
                     </div>
                     <!-- job action -->
                     <div class="job-action flex justify-start align-middle gap-2">
@@ -144,8 +94,10 @@ function renderFilteredJobs(activeTab = 'all') {
     // Render dashboard stats
     renderJobCountOnDashboard();
 }
-
+// Render all jobs by default
 renderFilteredJobs('all');
+
+// Render jobs by active tab filter
 document.getElementById('all-tab').addEventListener('click', function () {
     renderFilteredJobs('all');
     changeActiveTabButton('all-tab');
@@ -163,32 +115,7 @@ document.getElementById('rejected-tab').addEventListener('click', function () {
 });
 
 
-// Function to change active tab button
-function changeActiveTabButton(id) {
-    document.getElementById(id).classList.add('btn-primary', 'shadow-none', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-    document.getElementById(id).classList.remove('bg-white', 'hover:text-[#3B82F6]');
-
-    if (id == 'all-tab') {
-        document.getElementById('interview-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('interview-tab').classList.add('bg-base-100');
-        document.getElementById('rejected-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('rejected-tab').classList.add('bg-base-100');
-    } else if (id == 'interview-tab') {
-        document.getElementById('all-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('all-tab').classList.add('bg-base-100');
-        document.getElementById('rejected-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('rejected-tab').classList.add('bg-base-100');
-    } else {
-        document.getElementById('all-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('all-tab').classList.add('bg-base-100');
-        document.getElementById('interview-tab').classList.remove('btn-primary', 'bg-[#3B82F6]', 'text-[#ffffff]', 'border-[#3B82F6]');
-        document.getElementById('interview-tab').classList.add('bg-base-100');
-    }
-}
-
-
 // Function to change job status
-console.log(currentTab);
 function changeJobStatus(id, newStatus) {
     jobs = jobs.map(currentJob => {
         if (currentJob.id === id) {
@@ -196,16 +123,15 @@ function changeJobStatus(id, newStatus) {
         }
         return currentJob;
     });
-    console.log(currentTab);
     renderFilteredJobs(currentTab)
     changeActiveTabButton(currentTab+'-tab')
 }
 
 
 // Function to delete job
-function deleteJob(id, status) {
-    alert('Do you want to delete this job - '+ id)
+function deleteJob(id, role) {
+    alert('Do you want to delete this job - ' + role)
     jobs = jobs.filter(job => job.id !== id);
-    renderFilteredJobs('all');
-    changeActiveTabButton('all-tab');
+    renderFilteredJobs(currentTab)
+    changeActiveTabButton(currentTab + '-tab')
 }
